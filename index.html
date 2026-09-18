@@ -1,241 +1,978 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ha">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SUKA TRADERS • Online</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUKA TRADERS</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root{--bg:#07111f;--panel:#0d1c2b;--line:#1d374b;--text:#eef7f6;--muted:#91aab5;--green:#10a982;--gold:#d7b35b}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.top{height:62px;background:#091827;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:10}
-.logo{font-weight:900;letter-spacing:.7px}.logo span{color:var(--green)}.user-mini{font-size:12px;color:var(--muted)}
-.layout{max-width:1100px;margin:auto;display:grid;grid-template-columns:210px 1fr 260px;gap:14px;padding:14px}
-.side,.right,.card{background:var(--panel);border:1px solid var(--line);border-radius:14px}
-.side{padding:10px;height:max-content;position:sticky;top:76px}.nav{display:block;width:100%;text-align:left;border:0;background:transparent;color:#bcd0d6;padding:13px;border-radius:10px;font-weight:700}.nav.active,.nav:hover{background:#102d3c;color:white}
-.card{padding:14px;margin-bottom:12px}.hero{background:linear-gradient(135deg,#0c2635,#0c1b2a)}
-h1{font-size:22px;margin:0 0 6px}.muted{color:var(--muted);font-size:12px}.composer{display:grid;grid-template-columns:44px 1fr;gap:10px}.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#12384a;color:#73e0c1;font-weight:900}
-textarea,input,select{width:100%;background:#071522;border:1px solid #274456;color:white;border-radius:10px;padding:11px;outline:none}textarea{min-height:80px;resize:vertical}
-.btn{border:0;border-radius:9px;padding:10px 14px;background:#163247;color:#d8e6e8;font-weight:800}.primary{background:var(--green);color:white}.gold{color:var(--gold)}
-.post-head{display:flex;gap:10px;align-items:center}.post-head b{font-size:13px}.country{font-size:10px;color:var(--muted)}.post-text{line-height:1.5;font-size:14px;margin:12px 0}.tag{display:inline-block;background:#123040;color:#7edfc3;border-radius:20px;padding:5px 8px;font-size:10px;margin:2px}
-.actions{display:flex;gap:8px;border-top:1px solid var(--line);padding-top:10px;margin-top:10px}.actions button{flex:1;background:transparent;border:0;color:#9eb7c0}.actions button.liked{color:#38d6ad}
-.right{padding:14px;height:max-content;position:sticky;top:76px}.right h3{font-size:13px;margin:0 0 10px}.trend{padding:10px 0;border-bottom:1px solid var(--line);font-size:12px}.trend:last-child{border:0}.green{color:#43d9ae}.red{color:#ff8585}
-.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top,#123044,#07111f 55%)}.authbox{width:min(420px,100%);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}.authbox h1{text-align:center}.authbox .logo{text-align:center;margin-bottom:18px}.field{margin:10px 0}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px}.switch{text-align:center;margin-top:12px;color:var(--muted);font-size:12px}.switch button{border:0;background:none;color:#45d5b0}
-.profile{display:flex;align-items:center;gap:12px}.bigavatar{width:65px;height:65px;border-radius:50%;background:#12384a;display:grid;place-items:center;font-size:22px;font-weight:900;color:#73e0c1}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.side,.right{position:static}.side{display:flex;overflow:auto;gap:5px}.nav{white-space:nowrap;width:auto}.right{display:none}}
-</style>
 
 <style>
-.social-grid{display:grid;grid-template-columns:1fr;gap:12px}
-.profile-card{display:flex;align-items:center;gap:12px}
-.profile-big{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px}
-.small-muted{font-size:12px;opacity:.7}
-.comment-box{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
-.comment-row{padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-@media(min-width:800px){.social-grid{grid-template-columns:1.5fr 1fr}}
+:root{
+  --bg:#07111f;
+  --card:#0d1b2e;
+  --card2:#10233b;
+  --line:#1d3553;
+  --text:#f5f8fc;
+  --muted:#91a4ba;
+  --green:#19c37d;
+  --blue:#2878ff;
+  --gold:#f2c94c;
+  --red:#ef5350;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:linear-gradient(135deg,#06101d,#091a2d);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+.top{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:#081525;
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.logo{
+  font-size:21px;
+  font-weight:800;
+}
+.logo span{color:var(--green)}
+
+.user-mini{
+  margin-left:auto;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.layout{
+  max-width:1450px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr) 280px;
+  gap:18px;
+  padding:18px;
+}
+.side,.right{
+  background:rgba(13,27,46,.9);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+  height:max-content;
+  position:sticky;
+  top:82px;
+}
+.nav{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  text-align:left;
+  padding:13px;
+  border-radius:10px;
+  margin-bottom:5px;
+}
+.nav:hover,.nav.active{
+  background:#15304e;
+  color:#fff;
+}
+.card{
+  background:rgba(13,27,46,.95);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+}
+h1,h2,h3{margin-top:0}
+h1{font-size:25px}
+.muted,.small-muted{color:var(--muted)}
+.small{font-size:12px}
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  margin:6px 0 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#081727;
+  color:#fff;
+  outline:none;
+}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--green);
+}
+.btn{
+  border:0;
+  padding:10px 15px;
+  border-radius:10px;
+  background:#18304c;
+  color:#fff;
+}
+.primary{
+  background:var(--green);
+  color:#04140d;
+  font-weight:800;
+}
+.danger{background:#542329}
+.gold{color:var(--gold)}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+.actions button{
+  border:0;
+  border-radius:9px;
+  padding:8px 12px;
+  background:#152d48;
+  color:#fff;
+}
+.post-head{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.avatar,.profile-big{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:linear-gradient(135deg,#18b879,#216cff);
+  color:#fff;
+  font-weight:800;
+}
+.avatar{
+  width:42px;
+  height:42px;
+}
+.profile-big{
+  width:82px;
+  height:82px;
+  font-size:25px;
+}
+.country{
+  color:var(--muted);
+  font-size:12px;
+}
+.post-text{
+  white-space:pre-wrap;
+  margin:15px 0;
+  line-height:1.6;
+}
+.tag{
+  display:inline-block;
+  color:#77b2ff;
+  background:#102d4c;
+  border-radius:20px;
+  padding:5px 9px;
+  margin:3px;
+  font-size:12px;
+}
+.auth{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.auth-box{
+  width:100%;
+  max-width:440px;
+  background:#0d1b2e;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:25px;
+}
+.auth-logo{
+  text-align:center;
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+.auth-logo span{color:var(--green)}
+.switch{
+  text-align:center;
+  color:var(--muted);
+  margin-top:15px;
+}
+.switch button{
+  border:0;
+  background:none;
+  color:var(--green);
+}
+.profile-card{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.stat{
+  background:#0a1829;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  text-align:center;
+}
+.stat b{
+  display:block;
+  font-size:20px;
+  color:var(--green);
+}
+.trader{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border-bottom:1px solid var(--line);
+}
+.trader:last-child{border-bottom:0}
+.comment-box{
+  margin-top:10px;
+}
+.notification-panel{
+  position:fixed;
+  right:15px;
+  top:70px;
+  width:320px;
+  max-width:calc(100% - 30px);
+  max-height:70vh;
+  overflow:auto;
+  z-index:50;
+}
+.market-row{
+  display:flex;
+  justify-content:space-between;
+  padding:9px 0;
+  border-bottom:1px solid var(--line);
+}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.center{text-align:center}
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+hr{
+  border:0;
+  border-top:1px solid var(--line);
+  margin:18px 0;
+}
+
+@media(max-width:1050px){
+  .layout{grid-template-columns:190px minmax(0,1fr)}
+  .right{display:none}
+}
+@media(max-width:720px){
+  .layout{
+    display:block;
+    padding:10px;
+  }
+  .side{
+    position:static;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:5px;
+    margin-bottom:10px;
+  }
+  .nav{margin:0}
+  .top{padding:0 10px}
+  .user-mini{
+    max-width:130px;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .stat-grid{grid-template-columns:1fr 1fr 1fr}
+}
 </style>
 </head>
-<body>
-<div id="auth" class="auth">
-<div class="authbox">
-<div class="logo">↔ <span>SUKA TRADERS</span></div>
-<h1 id="authTitle">Create Account</h1><div class="muted" style="text-align:center;margin-bottom:14px">Cika dukkan bayanai domin shiga SUKA TRADERS</div>
-<div class="field"><label>Full Name *</label><input id="name" placeholder="Your full name"></div>
-<div class="field"><label>Username *</label><input id="username" placeholder="@username"></div>
-<div class="field"><label>Country *</label><input id="country" placeholder="Niger, Nigeria, Ghana..."></div>
-<div class="field"><label>Email *</label><input id="email" type="email" placeholder="you@email.com"></div>
-<div class="field"><label>Password * (minimum 6)</label><input id="password" type="password" placeholder="••••••••"></div>
-<button class="btn primary" style="width:100%;margin-top:8px" onclick="authAction()">Create Account</button>
-<div class="switch">Already have an account? <button onclick="toggleAuth()">Login</button></div>
-</div></div>
 
-<div id="notificationPanel" class="card hidden" style="position:fixed;right:12px;top:60px;z-index:50;max-width:360px;width:calc(100% - 24px);max-height:70vh;overflow:auto">
-<h3>🔔 Notifications</h3><div id="notificationList"></div></div>
-<div id="app" class="hidden">
-<header class="top"><div class="logo">↔ <span>SUKA TRADERS</span></div><div class="user-mini" id="notificationBtn" class="btn" onclick="toggleNotifications()" style="margin-left:auto">🔔 <span id="notificationCount">0</span></button><span id="miniUser"></div></header>
+<body>
+
+<!-- AUTH -->
+<section id="auth" class="auth">
+  <div class="auth-box">
+    <div class="auth-logo">↔ <span>SUKA TRADERS</span></div>
+    <p class="center muted">Trading Social Network</p>
+
+    <h2 id="authTitle">Create Account</h2>
+
+    <div id="signupFields">
+      <label>Full Name</label>
+      <input id="name" placeholder="Misali: Aminu Musa">
+
+      <label>Username</label>
+      <input id="username" placeholder="@aminutrader">
+
+      <label>Country</label>
+      <input id="country" placeholder="🇳🇪 Niger">
+    </div>
+
+    <label>Email</label>
+    <input id="email" type="email" placeholder="your@email.com">
+
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Aƙalla characters 6">
+
+    <button class="btn primary" style="width:100%" onclick="authAction()">
+      Create Account
+    </button>
+
+    <div class="switch" id="authSwitch">
+      Already have an account?
+      <button onclick="toggleAuth()">Login</button>
+    </div>
+  </div>
+</section>
+
+<!-- APP -->
+<section id="app" class="hidden">
+
+<header class="top">
+  <div class="logo">↔ <span>SUKA TRADERS</span></div>
+
+  <button class="btn" onclick="toggleNotifications()">
+    🔔 <span id="notificationCount">0</span>
+  </button>
+
+  <div class="user-mini" id="miniUser"></div>
+</header>
+
+<div id="notificationPanel" class="notification-panel hidden card">
+  <div class="section-title">
+    <h3>Notifications</h3>
+    <button class="btn" onclick="toggleNotifications()">×</button>
+  </div>
+  <div id="notificationList"></div>
+</div>
+
 <div class="layout">
+
+<!-- SIDE -->
 <aside class="side">
+
 <button class="nav active" onclick="page('home',this)">🏠 Home</button>
-<button class="nav" onclick="page('discover',this)">🌍 Discover</button>
+<button class="nav" onclick="page('discover',this)">🔎 Discover</button>
 <button class="nav" onclick="page('messages',this)">💬 Messages</button>
 <button class="nav" onclick="page('journal',this)">📓 Journal</button>
 <button class="nav" onclick="page('profile',this)">👤 Profile</button>
 <button class="nav" onclick="page('settings',this)">⚙️ Settings</button>
-<button class="nav" onclick="logout()">🚪 Logout</button>
+<button class="nav danger" onclick="logout()">🚪 Logout</button>
+
 </aside>
 
+<!-- MAIN -->
 <main>
 
-<section id="publicProfile" class="view hidden">
- <div id="publicProfileBox"></div>
- <div id="publicProfilePosts"></div>
-</section>
+<!-- HOME -->
 <section id="home" class="view">
-<div class="card hero"><h1>Welcome to SUKA TRADERS 🌍</h1><div class="muted">Connect • Learn • Trade • Grow</div></div>
-<div class="card"><div class="composer"><div class="avatar" id="myAvatar">ST</div><div><textarea id="postText" placeholder="Share your market idea, analysis or lesson..."></textarea><div class="row" style="margin-top:8px"><select id="postMarket"><option>General</option><option>XAUUSD</option><option>NAS100</option><option>EURUSD</option><option>Forex</option><option>Crypto</option></select><button class="btn primary" onclick="createPost()">Post</button></div></div></div></div>
-<div id="feed"></div>
+
+<div class="section-title">
+  <div>
+    <h1>Trading Feed</h1>
+    <div class="muted">Share your trading ideas with traders.</div>
+  </div>
+</div>
+
+<div class="card">
+  <textarea id="postText" placeholder="Me kake gani a market yau?"></textarea>
+
+  <select id="postMarket">
+    <option value="">Market / Setup</option>
+    <option>XAUUSD</option>
+    <option>NAS100</option>
+    <option>EURUSD</option>
+    <option>EURJPY</option>
+    <option>AUDJPY</option>
+    <option>FOREX</option>
+    <option>CRYPTO</option>
+  </select>
+
+  <button class="btn primary" onclick="createPost()">➤ Post</button>
+</div>
+
+<div id="feed">
+  <div class="card muted">Ana loading posts...</div>
+</div>
+
 </section>
 
+<!-- DISCOVER -->
 <section id="discover" class="view hidden">
-<div class="card"><h2>🌍 Discover Traders</h2><div class="muted">Find traders, markets and communities.</div>
-<input id="searchTrader" style="margin-top:10px" placeholder="Search trader or country..." oninput="renderTraders()"></div>
-<div class="card"><b>Popular Markets</b><p><span class="tag">XAUUSD</span><span class="tag">NAS100</span><span class="tag">EURUSD</span><span class="tag">BTCUSD</span><span class="tag">Forex</span><span class="tag">CRT</span><span class="tag">ICT</span></p></div>
-<div id="traderList"></div>
+
+<h1>Discover Traders</h1>
+
+<div class="card">
+  <input id="traderSearch" placeholder="🔎 Search trader..." oninput="renderTraders()">
+</div>
+
+<div class="card">
+  <h3>Popular Markets</h3>
+  <div class="actions">
+    <button onclick="filterMarket('XAUUSD')">#XAUUSD</button>
+    <button onclick="filterMarket('NAS100')">#NAS100</button>
+    <button onclick="filterMarket('EURUSD')">#EURUSD</button>
+    <button onclick="filterMarket('FOREX')">#FOREX</button>
+    <button onclick="filterMarket('')">All</button>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Traders</h3>
+  <div id="traderList"></div>
+</div>
+
 </section>
 
+<!-- MESSAGES -->
 <section id="messages" class="view hidden">
-<div class="card"><h2>💬 Messages</h2><div class="muted">Private trader conversations.</div>
-<select id="messageUser" style="margin-top:10px"><option value="">Zaɓi trader...</option></select>
-<textarea id="messageText" style="margin-top:8px" placeholder="Rubuta saƙonka..."></textarea>
-<button class="btn primary" style="margin-top:8px;width:100%" onclick="sendMessage()">📨 Send Message</button>
+
+<h1>Messages</h1>
+
+<div class="card">
+  <label>Choose Trader</label>
+  <select id="messageUser" onchange="loadConversation()">
+    <option value="">Select trader...</option>
+  </select>
 </div>
-<div id="messagesOnline"></div>
+
+<div id="messageBox"></div>
+
+<div class="card">
+  <textarea id="messageText" placeholder="Rubuta saƙonka..."></textarea>
+  <button class="btn primary" onclick="sendMessage()">Send Message</button>
+</div>
+
 </section>
 
+<!-- JOURNAL -->
 <section id="journal" class="view hidden">
-<div class="card"><h2>📓 Trading Journal</h2>
-<div class="muted">Ka ajiye trade ɗinka kai tsaye a Supabase.</div><div id="journalStats" class="gold" style="margin-top:8px;font-weight:800">0 trades • 0.00R</div>
-<div style="display:grid;gap:8px;margin-top:12px">
-<input id="jInstrument" placeholder="Instrument — XAUUSD / NAS100 / EURUSD">
-<input id="jSession" placeholder="Session — London / New York / Tokyo">
-<input id="jDirection" placeholder="Direction — BUY / SELL">
-<input id="jSetup" placeholder="Setup — CRT / MSS / FVG / OB">
-<input id="jEntry" type="number" step="any" placeholder="Entry">
-<input id="jSL" type="number" step="any" placeholder="Stop Loss">
-<input id="jTP" type="number" step="any" placeholder="Take Profit">
-<input id="jRisk" type="number" step="any" placeholder="Risk %">
-<input id="jRR" type="number" step="any" placeholder="R:R">
-<input id="jResult" type="number" step="any" placeholder="Result R — e.g. 2 or -1">
-<input id="jEmotion" placeholder="Emotion — Calm / FOMO / Revenge...">
-<textarea id="jNotes" placeholder="Me ya sa ka shiga trade? Inducement → Liquidity Sweep → MSS → FVG → Entry..."></textarea>
-<button class="btn primary" style="width:100%" onclick="saveJournal()">💾 Save Trade</button>
-</div></div>
-<div id="journalList"></div>
-</section>
 
-<section id="profile" class="view hidden">
-<div class="card"><div class="profile"><div class="bigavatar" id="profileAvatar">ST</div><div><h2 id="profileName" style="margin:0"></h2><div class="muted" id="profileHandle"></div><div class="muted" id="profileCountry"></div></div></div>
-<div class="actions"><button id="followersBtn">Followers 0</button><button>Following 0</button><button>Posts 0</button></div></div>
-<div class="card"><b>About</b><p class="muted">Trader on SUKA TRADERS. Share ideas, learn and connect.</p></div>
-<div class="card"><h3>Trading Interests</h3><span class="tag">XAUUSD</span><span class="tag">NAS100</span><span class="tag">CRT</span><span class="tag">ICT</span></div>
-</section>
-
-<section id="settings" class="view hidden">
-<div class="card"><h2>⚙️ Settings</h2>
-<label>Preferred Language</label><select id="language"><option>Hausa</option><option>English</option><option>Français</option><option>العربية</option><option>Português</option><option>Español</option></select>
-<label>Country</label><input id="editCountry">
-<label>Bio</label><textarea id="editBio" placeholder="Tell traders about yourself..."></textarea>
-<button class="btn primary" style="margin-top:10px" onclick="saveSettings()">Save Settings</button>
+<div class="section-title">
+  <div>
+    <h1>Trading Journal</h1>
+    <div id="journalStats" class="muted">0 trades • 0.00R</div>
+  </div>
 </div>
-<div class="card"><h3>🛡️ Safety</h3><div class="muted">Report, block and moderation features will be connected to the real database in the online version.</div></div>
+
+<div class="card">
+
+<label>Instrument</label>
+<input id="jInstrument" placeholder="XAUUSD">
+
+<label>Session</label>
+<input id="jSession" placeholder="New-York">
+
+<label>Direction</label>
+<input id="jDirection" placeholder="Buy / Sell">
+
+<label>Setup</label>
+<input id="jSetup" placeholder="CRT">
+
+<label>Entry</label>
+<input id="jEntry" type="number" step="any">
+
+<label>Stop Loss</label>
+<input id="jSL" type="number" step="any">
+
+<label>Take Profit</label>
+<input id="jTP" type="number" step="any">
+
+<label>Risk %</label>
+<input id="jRisk" type="number" step="any">
+
+<label>R:R</label>
+<input id="jRR" type="number" step="any">
+
+<label>Result R</label>
+<input id="jResult" type="number" step="any">
+
+<label>Emotion</label>
+<input id="jEmotion" placeholder="Calm / Fear / FOMO">
+
+<label>Notes</label>
+<textarea id="jNotes" placeholder="Rubuta bayanin trade..."></textarea>
+
+<button class="btn primary" onclick="saveJournal()">💾 Save Trade</button>
+
+</div>
+
+<div id="journalList"></div>
+
 </section>
+
+<!-- PROFILE -->
+<section id="profile" class="view hidden">
+
+<div class="card">
+
+<div class="profile-card">
+  <div id="profileAvatar" class="profile-big">ST</div>
+  <div>
+    <h2 id="profileName">Trader</h2>
+    <div id="profileHandle" class="muted"></div>
+    <div id="profileCountry" class="small-muted"></div>
+  </div>
+</div>
+
+<hr>
+
+<label>Country</label>
+<input id="editCountry">
+
+<label>Bio</label>
+<textarea id="editBio"></textarea>
+
+<button class="btn primary" onclick="saveProfile()">Save Profile</button>
+
+</div>
+
+<div class="card">
+  <h3>My Posts</h3>
+  <div id="myPosts"></div>
+</div>
+
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="view hidden">
+
+<h1>Settings</h1>
+
+<div class="card">
+  <h3>Language</h3>
+  <select id="language" onchange="saveLanguage()">
+    <option value="Hausa">Hausa</option>
+    <option value="English">English</option>
+    <option value="Français">Français</option>
+  </select>
+</div>
+
+<div class="card">
+  <h3>Account</h3>
+  <p class="muted">Email: <span id="accountEmail"></span></p>
+  <button class="btn danger" onclick="logout()">Logout</button>
+</div>
+
+</section>
+
+<!-- PUBLIC PROFILE -->
+<section id="publicProfile" class="view hidden">
+
+<div class="section-title">
+  <h1>Trader Profile</h1>
+  <button class="btn" onclick="backHome()">← Back</button>
+</div>
+
+<div id="publicProfileBox"></div>
+
+</section>
+
 </main>
 
+<!-- RIGHT -->
 <aside class="right">
-<div class="card"><h3>🔥 Market Watch</h3><div class="trend">XAUUSD <span class="green">Active</span></div><div class="trend">NAS100 <span class="green">Active</span></div><div class="trend">EURUSD <span class="gold">Watch</span></div></div>
-<div class="card"><h3>📌 Communities</h3><div class="trend">CRT / ICT</div><div class="trend">Forex Traders</div><div class="trend">Gold Traders</div><div class="trend">NAS100 Traders</div></div>
-<div class="card"><h3>🌐 Translation</h3><div class="muted">Choose your language in Settings. Automatic translation will be connected in the online version.</div></div>
+
+<h3>Market Watch</h3>
+
+<div class="market-row">
+  <span>XAUUSD</span>
+  <span class="green">● LIVE</span>
+</div>
+
+<div class="market-row">
+  <span>NAS100</span>
+  <span class="green">● LIVE</span>
+</div>
+
+<div class="market-row">
+  <span>EURUSD</span>
+  <span>FOREX</span>
+</div>
+
+<hr>
+
+<h3>Communities</h3>
+
+<p class="muted">📈 CRT Traders</p>
+<p class="muted">🥇 XAUUSD Traders</p>
+<p class="muted">💹 Forex Africa</p>
+<p class="muted">🧠 ICT Traders</p>
+
+<hr>
+
+<h3>Quick Rules</h3>
+<p class="small muted">
+Wait for liquidity sweep → MSS → FVG → Entry.
+</p>
+
 </aside>
-</div></div>
+
+</div>
+</section>
+
 <script>
+
 const SUPABASE_URL='https://ukxzfcsvczqfcaoqzcxy.supabase.co';
 const SUPABASE_KEY='sb_publishable_2MaX-5oGcTlIZh1tVlZ09g_8Fn3d5wK';
+
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let currentUser=null,currentProfile=null,posts=[];
+
+let currentUser=null;
+let currentProfile=null;
+let posts=[];
+let selectedMarket='';
+
 const demo=[
-{name:'Aminu Musa',handle:'@aminutrader',country:'🇳🇬 Nigeria',text:'Watching XAUUSD for a liquidity sweep before looking for MSS and FVG confirmation.',tags:['XAUUSD','CRT']},
-{name:'Mariam Abdou',handle:'@mariamfx',country:'🇳🇪 Niger',text:'Patience first. No entry until my setup gives the full confirmation.',tags:['NAS100','ICT']},
-{name:'David Mensah',handle:'@davidfx',country:'🇬🇭 Ghana',text:'London session watchlist: EURUSD and GBPUSD. Waiting for clean structure.',tags:['EURUSD','FOREX']}
+ {
+  name:'Aminu Musa',
+  handle:'@aminutrader',
+  country:'🇳🇬 Nigeria',
+  text:'Watching XAUUSD for a liquidity sweep before looking for MSS and FVG confirmation.',
+  tags:['XAUUSD','CRT']
+ },
+ {
+  name:'Mariam Abdou',
+  handle:'@mariamfx',
+  country:'🇳🇪 Niger',
+  text:'Patience first. No entry until my setup gives the full confirmation.',
+  tags:['NAS100','ICT']
+ },
+ {
+  name:'David Mensah',
+  handle:'@davidfx',
+  country:'🇬🇭 Ghana',
+  text:'London session watchlist: EURUSD and GBPUSD. Waiting for clean structure.',
+  tags:['EURUSD','FOREX']
+ }
 ];
-function initials(name='ST'){return name.split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase()}
-function toggleAuth(){
- const login=document.getElementById('authTitle').textContent==='Create Account';
- document.getElementById('authTitle').textContent=login?'Login':'Create Account';
- document.querySelector('#auth .primary').textContent=login?'Login':'Create Account';
- document.querySelector('.switch').innerHTML=login?'No account? <button onclick="toggleAuth()">Create Account</button>':'Already have an account? <button onclick="toggleAuth()">Login</button>';
- ['name','username','country'].forEach(x=>document.getElementById(x).parentElement.style.display=login?'none':'block');
+
+function initials(name='ST'){
+ return name
+  .split(/\s+/)
+  .filter(Boolean)
+  .map(x=>x[0])
+  .slice(0,2)
+  .join('')
+  .toUpperCase();
 }
+
+function escapeHTML(s){
+ return String(s??'').replace(/[&<>"']/g,m=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#039;'
+ }[m]));
+}
+
+function escapeJS(s){
+ return String(s??'')
+  .replace(/\\/g,'\\\\')
+  .replace(/'/g,"\\'");
+}
+
+function num(id){
+ const v=document.getElementById(id)?.value;
+ return v===''||v==null?null:Number(v);
+}
+
+/* AUTH */
+
+function toggleAuth(){
+
+ const isLogin=document.getElementById('authTitle').textContent==='Login';
+
+ document.getElementById('authTitle').textContent=
+  isLogin?'Create Account':'Login';
+
+ document.getElementById('signupFields').style.display=
+  isLogin?'block':'none';
+
+ document.querySelector('#auth .primary').textContent=
+  isLogin?'Create Account':'Login';
+
+ document.getElementById('authSwitch').innerHTML=
+  isLogin
+   ? 'Already have an account? <button onclick="toggleAuth()">Login</button>'
+   : 'Already have an account? <button onclick="toggleAuth()">Login</button>';
+
+ if(!isLogin){
+  document.getElementById('authSwitch').innerHTML=
+   'Already have an account? <button onclick="toggleAuth()">Login</button>';
+ }
+}
+
 async function authAction(){
+
  const login=document.getElementById('authTitle').textContent==='Login';
- const email=document.getElementById('email').value.trim().toLowerCase(),password=document.getElementById('password').value;
+
+ const email=document.getElementById('email').value.trim().toLowerCase();
+ const password=document.getElementById('password').value;
+
  if(!email)return alert('❌ Ka saka Email.');
  if(!password)return alert('❌ Ka saka Password.');
+
  if(login){
-  const {data,error}=await sb.auth.signInWithPassword({email,password});
+
+  const {data,error}=await sb.auth.signInWithPassword({
+   email,
+   password
+  });
+
   if(error)return alert('❌ Login ya kasa: '+error.message);
-  currentUser=data.user;await loadProfile();await openApp();startRealtime();
+
+  currentUser=data.user;
+
+  await loadProfile();
+
+  if(!currentProfile){
+   await createMissingProfile();
+   await loadProfile();
+  }
+
+  await openApp();
+  startRealtime();
+
  }else{
+
   const name=document.getElementById('name').value.trim();
   let username=document.getElementById('username').value.trim();
   const country=document.getElementById('country').value.trim();
-  if(!name||!username||!country)return alert('❌ Ka cika Full Name, Username da Country.');
-  if(password.length<6)return alert('❌ Password aƙalla characters 6.');
+
+  if(!name||!username||!country){
+   return alert('❌ Ka cika Full Name, Username da Country.');
+  }
+
+  if(password.length<6){
+   return alert('❌ Password aƙalla characters 6.');
+  }
+
   if(!username.startsWith('@'))username='@'+username;
-  const {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name,username,country,language:'Hausa',bio:''}}});
+
+  const {data,error}=await sb.auth.signUp({
+   email,
+   password,
+   options:{
+    data:{
+     full_name:name,
+     username,
+     country,
+     language:'Hausa',
+     bio:''
+    }
+   }
+  });
+
   if(error)return alert('❌ An kasa ƙirƙirar account: '+error.message);
-  if(!data.session)return alert('✅ An ƙirƙiri account! Duba Email ɗinka ka tabbatar, sannan ka dawo ka yi Login.');
-  currentUser=data.user;await loadProfile();await openApp();
+
+  if(!data.session){
+   return alert(
+    '✅ An ƙirƙiri account. Duba Email ɗinka ka tabbatar, sannan ka dawo ka yi Login.'
+   );
+  }
+
+  currentUser=data.user;
+
+  await createMissingProfile(name,username,country);
+
+  await loadProfile();
+  await openApp();
+  startRealtime();
  }
 }
+
 async function loadProfile(){
- const {data,error}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
- if(error){console.error(error);return} currentProfile=data;
-}
-async function openApp(){
+
  if(!currentUser)return;
- document.getElementById('auth').classList.add('hidden');document.getElementById('app').classList.remove('hidden');
- const p=currentProfile||{},ini=initials(p.full_name||p.username||'ST');
- document.getElementById('miniUser').textContent=(p.username||currentUser.email)+' • '+(p.country||'');
- document.getElementById('myAvatar').textContent=ini;document.getElementById('profileAvatar').textContent=ini;
- document.getElementById('profileName').textContent=p.full_name||'Trader';document.getElementById('profileHandle').textContent=p.username||'';
- document.getElementById('profileCountry').textContent=p.country||'';document.getElementById('language').value=p.language||'Hausa';
- document.getElementById('editCountry').value=p.country||'';document.getElementById('editBio').value=p.bio||'';await render();
+
+ const {data,error}=await sb
+  .from('profiles')
+  .select('*')
+  .eq('id',currentUser.id)
+  .maybeSingle();
+
+ if(error){
+  console.error(error);
+  return;
+ }
+
+ currentProfile=data;
 }
-async function logout(){await sb.auth.signOut();location.reload()}
+
+async function createMissingProfile(name='',username='',country=''){
+
+ if(!currentUser)return;
+
+ const meta=currentUser.user_metadata||{};
+
+ await sb.from('profiles').upsert({
+  id:currentUser.id,
+  full_name:name||meta.full_name||'Trader',
+  username:username||meta.username||('@'+currentUser.email.split('@')[0]),
+  country:country||meta.country||'',
+  language:meta.language||'Hausa',
+  bio:meta.bio||''
+ });
+}
+
+/* APP */
+
+async function openApp(){
+
+ if(!currentUser)return;
+
+ document.getElementById('auth').classList.add('hidden');
+ document.getElementById('app').classList.remove('hidden');
+
+ const p=currentProfile||{};
+
+ const ini=initials(
+  p.full_name||p.username||'ST'
+ );
+
+ document.getElementById('miniUser').textContent=
+  (p.username||currentUser.email)+' • '+(p.country||'');
+
+ document.getElementById('myAvatar')?.textContent=ini;
+
+ document.getElementById('profileAvatar').textContent=ini;
+ document.getElementById('profileName').textContent=
+  p.full_name||'Trader';
+
+ document.getElementById('profileHandle').textContent=
+  p.username||'';
+
+ document.getElementById('profileCountry').textContent=
+  p.country||'';
+
+ document.getElementById('editCountry').value=
+  p.country||'';
+
+ document.getElementById('editBio').value=
+  p.bio||'';
+
+ document.getElementById('language').value=
+  p.language||'Hausa';
+
+ document.getElementById('accountEmail').textContent=
+  currentUser.email||'';
+
+ await render();
+ await loadNotifications();
+}
+
+async function logout(){
+ await sb.auth.signOut();
+ location.reload();
+}
+
 async function page(id,btn){
- document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));
- document.getElementById(id).classList.remove('hidden');
- document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));
- btn.classList.add('active');
- if(id==='home'||id==='discover') await render();
- if(id==='messages') await renderMessages();
- if(id==='journal') await loadJournal();
+
+ document.querySelectorAll('.view')
+  .forEach(x=>x.classList.add('hidden'));
+
+ document.getElementById(id)
+  .classList.remove('hidden');
+
+ document.querySelectorAll('.nav')
+  .forEach(x=>x.classList.remove('active'));
+
+ if(btn)btn.classList.add('active');
+
+ if(id==='home')await render();
+ if(id==='discover'){
+  await render();
+  await renderTraders();
+ }
+ if(id==='messages'){
+  await loadTraderOptions();
+  await loadConversation();
+ }
+ if(id==='journal')await loadJournal();
+ if(id==='profile')await loadMyPosts();
 }
+
+/* POSTS */
+
 async function createPost(){
- const content=document.getElementById('postText').value.trim();if(!content)return alert('Rubuta wani abu kafin Post.');
- const {error}=await sb.from('posts').insert({user_id:currentUser.id,content,market:document.getElementById('postMarket').value});
- if(error)return alert('❌ An kasa aika post: '+error.message);
- document.getElementById('postText').value='';await render();alert('✅ An wallafa post ɗinka.');
+
+ if(!currentUser)return alert('❌ Yi Login farko.');
+
+ const content=document.getElementById('postText').value.trim();
+ const market=document.getElementById('postMarket').value;
+
+ if(!content)return alert('Rubuta wani abu kafin Post.');
+
+ const {error}=await sb.from('posts').insert({
+  user_id:currentUser.id,
+  content,
+  market:market||null
+ });
+
+ if(error){
+  return alert('❌ An kasa aika post: '+error.message);
+ }
+
+ document.getElementById('postText').value='';
+ document.getElementById('postMarket').value='';
+
+ await render();
+
+ alert('✅ An wallafa post ɗinka.');
 }
+
 async function loadPosts(){
+
  const {data:postData,error:postError}=await sb
   .from('posts')
-  .select('id,user_id,content,market,created_at')
+  .select('id,user_id,content,market,setup_tag,created_at')
   .order('created_at',{ascending:false})
   .limit(30);
 
  if(postError){
-  console.error('POST LOAD ERROR:',postError);
+  console.error(postError);
   posts=[];
   return;
  }
 
  const rows=postData||[];
- const ids=[...new Set(rows.map(p=>p.user_id).filter(Boolean))];
+ const ids=[...new Set(
+  rows.map(p=>p.user_id).filter(Boolean)
+ )];
 
  let profiles={};
 
  if(ids.length){
-  const {data:profileData,error:profileError}=await sb
+
+  const {data:profileData,error}=await sb
    .from('profiles')
-   .select('id,full_name,username,country')
+   .select('id,full_name,username,country,bio')
    .in('id',ids);
 
-  if(profileError){
-   console.error('PROFILE LOAD ERROR:',profileError);
+  if(error){
+   console.error(error);
   }else{
-   (profileData||[]).forEach(p=>profiles[p.id]=p);
+   (profileData||[]).forEach(p=>{
+    profiles[p.id]=p;
+   });
   }
  }
 
@@ -244,181 +981,11 @@ async function loadPosts(){
   profiles:profiles[p.user_id]||null
  }));
 }
-}
+
 async function render(){
+
  await loadPosts();
- const real=posts.map(p=>({id:p.id,user_id:p.user_id,name:p.profiles?.full_name||'Trader',handle:p.profiles?.username||'',country:p.profiles?.country||'',text:p.content,tags:p.market?[p.market]:[],real:true}));
- const all=[...real,...demo];
- document.getElementById('feed').innerHTML=all.map(p=>`
- <div class="card">
-  <div class="post-head" onclick="${p.real?`openPublicProfile('${p.user_id}')`:''}" style="${p.real?'cursor:pointer':''}">
-   <div class="avatar">${escapeHTML(initials(p.name))}</div>
-   <div><b>${escapeHTML(p.name)}</b><div class="country">${escapeHTML(p.handle)} • ${escapeHTML(p.country)}</div></div>
-  </div>
-  <div class="post-text">${escapeHTML(p.text)}</div>
-  <div>${(p.tags||[]).map(t=>`<span class="tag">#${escapeHTML(t)}</span>`).join('')}</div>
-  <div class="actions">
-   <button onclick="${p.real?`likePost('${p.id}',this)`:'like(this)'}">♡ Like</button>
-   <button onclick="${p.real?`commentPost('${p.id}')`:`commentDemo('${escapeJS(p.name)}')`}">💬 Comment</button>
-   <button onclick="sharePost()">↗ Share</button>
-  </div>
-  ${p.real?`<div id="comments-${p.id}" class="comment-box"></div>`:''}
- </div>`).join('');
- if(document.getElementById('traderList')) for(const p of posts){await loadPostComments(p.id)} if(document.getElementById('traderList')) await renderTraders(); if(document.getElementById('messageUser')) await renderMessages(); if(document.getElementById('journalList')) await loadJournal();
-}
 
-async function openPublicProfile(userId){
- const {data:p,error}=await sb.from('profiles').select('*').eq('id',userId).single();
- if(error)return alert('❌ Ba a sami profile ba.');
- const {data:followers}=await sb.from('follows').select('follower_id').eq('following_id',userId);
- const {data:following}=await sb.from('follows').select('following_id').eq('follower_id',userId);
- const {data:ps}=await sb.from('posts').select('id,content,market,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(20);
- const followingMe=await sb.from('follows').select('follower_id').eq('follower_id',currentUser.id).eq('following_id',userId).maybeSingle();
- document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));
- document.getElementById('publicProfile').classList.remove('hidden');
- document.getElementById('publicProfileBox').innerHTML=`<div class="card"><div class="profile-card"><div class="profile-big avatar">${escapeHTML(initials(p.full_name||'ST'))}</div><div><h2>${escapeHTML(p.full_name||'Trader')}</h2><div>${escapeHTML(p.username||'')}</div><div class="small-muted">${escapeHTML(p.country||'')}</div></div></div><p>${escapeHTML(p.bio||'No bio yet.')}</p><div class="actions"><span>Followers: ${(followers||[]).length}</span><span>Following: ${(following||[]).length}</span><button class="btn" onclick="toggleFollowPublic('${userId}',this)">${followingMe.data?'Following':'Follow'}</button></div></div>`;
- document.getElementById('publicProfilePosts').innerHTML=(ps||[]).map(x=>`<div class="card"><div class="small-muted">${escapeHTML(new Date(x.created_at).toLocaleString())} • ${escapeHTML(x.market||'')}</div><div class="post-text">${escapeHTML(x.content)}</div></div>`).join('')||'<div class="card">Babu posts tukuna.</div>';
-}
-async function toggleFollowPublic(userId,b){
- const {data}=await sb.from('follows').select('follower_id').eq('follower_id',currentUser.id).eq('following_id',userId).maybeSingle();
- if(data){await sb.from('follows').delete().eq('follower_id',currentUser.id).eq('following_id',userId);b.textContent='Follow'}
- else{const {error}=await sb.from('follows').insert({follower_id:currentUser.id,following_id:userId});if(error)return alert('❌ Follow bai yi ba: '+error.message);await createNotification(userId,'follow',currentUser.id);b.textContent='Following'}
-}
-async function loadPostComments(postId){
- const box=document.getElementById('comments-'+postId);if(!box)return;
- const {data}=await sb.from('comments').select('content,created_at,profiles(full_name,username)').eq('post_id',postId).order('created_at',{ascending:true}).limit(10);
- box.innerHTML=(data||[]).map(c=>`<div class="comment-row"><b>${escapeHTML(c.profiles?.full_name||'Trader')}</b>: ${escapeHTML(c.content)}</div>`).join('');
-}
-
-async function likePost(postId,b){
- const {data}=await sb.from('likes').select('post_id').eq('post_id',postId).eq('user_id',currentUser.id).maybeSingle();
- if(data){await sb.from('likes').delete().eq('post_id',postId).eq('user_id',currentUser.id);b.textContent='♡ Like';b.classList.remove('liked')}
- else{const {error}=await sb.from('likes').insert({post_id:postId,user_id:currentUser.id});if(error)return alert('❌ Like bai yi ba: '+error.message);b.textContent='♥ Liked';b.classList.add('liked'); const {data:pp}=await sb.from('posts').select('user_id').eq('id',postId).single(); if(pp) await createNotification(pp.user_id,'like',currentUser.id,postId)}
-}
-async function commentPost(postId){
- const content=prompt('Rubuta comment ɗinka:');if(!content?.trim())return;
- const {error}=await sb.from('comments').insert({post_id:postId,user_id:currentUser.id,content:content.trim()});
- if(error)return alert('❌ Comment bai yi ba: '+error.message); const {data:pp}=await sb.from('posts').select('user_id').eq('id',postId).single(); if(pp) await createNotification(pp.user_id,'comment',currentUser.id,postId); await loadPostComments(postId); alert('✅ Comment ɗinka ya shiga.');
-}
-function commentDemo(name){if(prompt('Rubuta comment ɗinka:')?.trim())alert('💬 Wannan demo post ne.')}
-async function renderTraders(){
- const q=(document.getElementById('searchTrader')?.value||'').toLowerCase();
- const {data}=await sb.from('profiles').select('id,full_name,username,country').neq('id',currentUser.id).limit(30);
- const list=(data||[]).filter(p=>(p.full_name+' '+p.country+' '+p.username).toLowerCase().includes(q));
- document.getElementById('traderList').innerHTML=list.map(p=>`<div class="card"><div class="post-head"><div class="avatar">${escapeHTML(initials(p.full_name||'ST'))}</div><div><b>${escapeHTML(p.full_name||'Trader')}</b><div class="country">${escapeHTML(p.username||'')} • ${escapeHTML(p.country||'')}</div></div><button class="btn" style="margin-left:auto" onclick="followTrader('${p.id}',this)">Follow</button></div></div>`).join('')||'<div class="card empty">Babu sauran trader a database tukuna.</div>';
-}
-async function followTrader(target,b){
- const {data}=await sb.from('follows').select('follower_id').eq('follower_id',currentUser.id).eq('following_id',target).maybeSingle();
- if(data){await sb.from('follows').delete().eq('follower_id',currentUser.id).eq('following_id',target);b.textContent='Follow'}
- else{const {error}=await sb.from('follows').insert({follower_id:currentUser.id,following_id:target});if(error)return alert('❌ Follow bai yi ba: '+error.message);await createNotification(target,'follow',currentUser.id);b.textContent='Following'}
-}
-async function renderMessages(){
- const sel=document.getElementById('messageUser'); if(!sel)return;
- const {data}=await sb.from('profiles').select('id,full_name,username,country').neq('id',currentUser.id).order('full_name').limit(50);
- sel.innerHTML='<option value="">Zaɓi trader...</option>'+(data||[]).map(p=>`<option value="${p.id}">${escapeHTML(p.full_name||'Trader')} — ${escapeHTML(p.username||'')} ${escapeHTML(p.country||'')}</option>`).join('');
- await loadMyMessages();
-}
-async function sendMessage(){
- const receiver=document.getElementById('messageUser')?.value;
- const content=document.getElementById('messageText')?.value.trim();
- if(!receiver)return alert('❌ Ka fara zaɓar trader.');
- if(!content)return alert('❌ Ka rubuta saƙo.');
- const {error}=await sb.from('messages').insert({sender_id:currentUser.id,receiver_id:receiver,content});
- if(error)return alert('❌ Saƙon bai tafi ba: '+error.message); await createNotification(receiver,'message',currentUser.id);
- document.getElementById('messageText').value='';
- alert('✅ An aika saƙo.');
- await loadMyMessages();
-}
-function sharePost(){if(navigator.share)navigator.share({title:'SUKA TRADERS',url:location.href});else alert('🔗 Copy/share wannan page ɗin daga browser.')}
-function follow(b){b.textContent=b.textContent==='Follow'?'Following':'Follow'}
-function like(b){b.classList.toggle('liked');b.textContent=b.classList.contains('liked')?'♥ Liked':'♡ Like'}
-async function saveSettings(){
- const country=document.getElementById('editCountry').value.trim()||currentProfile.country||'',bio=document.getElementById('editBio').value.trim(),language=document.getElementById('language').value;
- const {data,error}=await sb.from('profiles').update({country,bio,language,updated_at:new Date().toISOString()}).eq('id',currentUser.id).select().single();
- if(error)return alert('❌ Settings ba su ajiye ba: '+error.message);currentProfile=data;await openApp();alert('✅ Settings sun ajiye.');
-}
-
-async function saveJournal(){
- const instrument=document.getElementById('jInstrument')?.value.trim();
- if(!instrument)return alert('❌ Ka saka Instrument.');
- const payload={
-  user_id:currentUser.id, trade_date:new Date().toISOString().slice(0,10),
-  instrument, session:document.getElementById('jSession')?.value.trim()||null,
-  direction:document.getElementById('jDirection')?.value.trim()||null,
-  setup:document.getElementById('jSetup')?.value.trim()||null,
-  entry:num('jEntry'), stop_loss:num('jSL'), take_profit:num('jTP'),
-  risk_percent:num('jRisk'), rr:num('jRR'), result_r:num('jResult'),
-  emotion:document.getElementById('jEmotion')?.value.trim()||null,
-  notes:document.getElementById('jNotes')?.value.trim()||null
- };
- const {error}=await sb.from('trading_journal').insert(payload);
- if(error)return alert('❌ Journal bai ajiye ba: '+error.message);
- alert('✅ An ajiye trade ɗin a Trading Journal.');
- ['jInstrument','jSession','jDirection','jSetup','jEntry','jSL','jTP','jRisk','jRR','jResult','jEmotion','jNotes'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
- await loadJournal();
-}
-function num(id){const v=document.getElementById(id)?.value;return v===''||v==null?null:Number(v)}
-async function loadJournal(){
- const box=document.getElementById('journalList'); if(!box)return;
- const {data,error}=await sb.from('trading_journal').select('*').eq('user_id',currentUser.id).order('trade_date',{ascending:false}).order('created_at',{ascending:false}).limit(20);
- if(error){console.error(error);return}
- const totalR=(data||[]).reduce((a,t)=>a+(Number(t.result_r)||0),0);
- const stats=document.getElementById('journalStats');
- if(stats)stats.textContent=`${(data||[]).length} trades • ${totalR.toFixed(2)}R`;
- box.innerHTML=(data||[]).map(t=>`<div class="card"><b>${escapeHTML(t.instrument)}</b> • ${escapeHTML(t.direction||'')} • ${escapeHTML(t.setup||'')}<div class="muted">${escapeHTML(t.trade_date)} • ${escapeHTML(t.session||'')}</div><div>Entry: ${t.entry??'-'} | SL: ${t.stop_loss??'-'} | TP: ${t.take_profit??'-'} | R:R: ${t.rr??'-'} | Result R: ${t.result_r??'-'}</div><div>${escapeHTML(t.notes||'')}</div></div>`).join('')||'<div class="muted">Babu trade tukuna.</div>';
-}
-async function loadMyMessages(){
- const box=document.getElementById('messagesOnline');if(!box)return;
- const {data,error}=await sb.from('messages').select('*').or(`sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`).order('created_at',{ascending:false}).limit(30);
- if(error){console.error(error);return}
- const totalR=(data||[]).reduce((a,t)=>a+(Number(t.result_r)||0),0);
- const stats=document.getElementById('journalStats');
- if(stats)stats.textContent=`${(data||[]).length} trades • ${totalR.toFixed(2)}R`;
- box.innerHTML=(data||[]).map(m=>`<div class="card"><b>${m.sender_id===currentUser.id?'You':'Trader'}</b><div>${escapeHTML(m.content)}</div><div class="muted">${escapeHTML(new Date(m.created_at).toLocaleString())}</div></div>`).join('')||'<div class="muted">Babu saƙonni tukuna.</div>';
-}
-
-
-async function createNotification(userId,type,actorId=null,postId=null){
- if(!userId||userId===currentUser.id)return;
- const {error}=await sb.from('notifications').insert({user_id:userId,actor_id:actorId,type,post_id:postId});
- if(error)console.warn('notification:',error.message);
-}
-async function loadNotifications(){
- const list=document.getElementById('notificationList'); if(!list||!currentUser)return;
- const {data,error}=await sb.from('notifications').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(30);
- if(error){console.warn(error);return}
- const unread=(data||[]).filter(n=>!n.is_read).length;
- const c=document.getElementById('notificationCount'); if(c)c.textContent=unread;
- list.innerHTML=(data||[]).map(n=>`<div class="card"><b>${escapeHTML(notificationLabel(n.type))}</b><div class="muted">${escapeHTML(new Date(n.created_at).toLocaleString())}</div></div>`).join('')||'<div class="muted">Babu notification tukuna.</div>';
-}
-function notificationLabel(type){
- const map={like:'❤️ Someone liked your post',comment:'💬 Someone commented on your post',follow:'👥 Someone followed you',message:'✉️ New private message'};
- return map[type]||'🔔 New notification';
-}
-async function toggleNotifications(){
- const panel=document.getElementById('notificationPanel'); if(!panel)return;
- panel.classList.toggle('hidden'); await loadNotifications();
- if(!panel.classList.contains('hidden')){
-  await sb.from('notifications').update({is_read:true}).eq('user_id',currentUser.id).eq('is_read',false);
-  await loadNotifications();
- }
-}
-function startRealtime(){
- if(!currentUser)return;
- sb.channel('suka-traders-live-'+currentUser.id)
-  .on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications',filter:'user_id=eq.'+currentUser.id},payload=>{
-    loadNotifications();
-    if(document.getElementById('notificationPanel')?.classList.contains('hidden')) alert('🔔 Sabuwar notification ta shigo.');
-  })
-  .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'receiver_id=eq.'+currentUser.id},payload=>{
-    loadMyMessages();
-    alert('✉️ Sabon saƙo ya shigo.');
-  })
-  .subscribe();
-}
-
-function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function escapeJS(s){return String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
-(async()=>{const {data}=await sb.auth.getSession();if(data.session){currentUser=data.session.user;await loadProfile();if(currentProfile)await openApp()}})();
-</script>
-</body></html>
+ const real=posts.map(p=>({
+  id:p.id,
+  user_id:
