@@ -2,178 +2,331 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SUKA TRADERS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:#0b1118;
-  color:white;
+  background:#f4f7fb;
+  color:#172033
 }
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
-.auth-screen{
+.auth{
   min-height:100vh;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   padding:20px;
-  background:radial-gradient(circle at top,#12382e,#0b1118 45%);
+  background:linear-gradient(135deg,#071a33,#0c6b52)
 }
-
-.auth-box{
+.auth-card{
   width:100%;
   max-width:430px;
-  background:#111b25;
-  border:1px solid #263544;
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 20px 60px #0008;
+  background:white;
+  border-radius:22px;
+  padding:28px;
+  box-shadow:0 20px 60px #0005
 }
-
 .logo{
   text-align:center;
-  font-size:30px;
+  font-size:28px;
   font-weight:900;
-  color:#20d38a;
+  color:#087a5b;
+  margin-bottom:5px
 }
-
-.subtitle{
-  text-align:center;
-  color:#8998a7;
-  margin:8px 0 25px;
+.subtitle{text-align:center;color:#667085;margin-bottom:24px}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
+.tabs button{
+  flex:1;border:0;padding:12px;border-radius:10px;background:#edf1f5
 }
-
-h2{
-  margin-bottom:15px;
-}
-
-label{
-  display:block;
-  color:#aebbc7;
-  font-size:13px;
-  margin:13px 0 7px;
-}
-
-input{
+.tabs .active{background:#087a5b;color:white}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}
+.field input,.field textarea,.field select{
   width:100%;
-  background:#0b131c;
-  border:1px solid #2b3a49;
-  color:white;
+  border:1px solid #d6dce5;
   border-radius:10px;
-  padding:13px;
+  padding:12px;
   outline:none;
+  background:white
 }
-
-input:focus{
-  border-color:#20d38a;
+.field input:focus,.field textarea:focus,.field select:focus{
+  border-color:#087a5b
 }
-
-button{
-  cursor:pointer;
-}
-
 .primary{
   width:100%;
   border:0;
-  border-radius:10px;
+  background:#087a5b;
+  color:white;
   padding:13px;
-  margin-top:18px;
-  background:#20d38a;
-  color:#06140e;
-  font-weight:800;
+  border-radius:10px;
+  font-weight:bold
 }
-
-.primary:disabled{
-  opacity:.6;
-  cursor:not-allowed;
+.secondary{
+  border:1px solid #d6dce5;
+  background:white;
+  padding:10px 14px;
+  border-radius:9px
 }
-
-.switch{
-  text-align:center;
-  margin-top:18px;
-  color:#94a3b1;
-}
-
-.switch button{
-  background:none;
-  border:0;
-  color:#20d38a;
-  font-weight:700;
-}
-
-.error,
-.success{
-  display:none;
-  padding:10px;
-  margin-top:13px;
+.message{
+  padding:11px;
   border-radius:9px;
-  font-size:13px;
+  margin:12px 0;
+  font-size:14px
+}
+.success{background:#e7f8ef;color:#08633f}
+.error{background:#fff0f0;color:#a11}
+
+.app{min-height:100vh}
+.top{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#071a33;
+  color:white;
+  padding:13px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+.brand{font-weight:900;font-size:20px}
+.user-mini{font-size:12px;opacity:.85}
+
+.layout{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:18px;
+  padding:18px
+}
+.sidebar{
+  background:white;
+  border-radius:16px;
+  padding:12px;
+  height:max-content;
+  position:sticky;
+  top:75px
+}
+.nav{
+  width:100%;
+  text-align:left;
+  border:0;
+  background:white;
+  padding:12px;
+  border-radius:9px;
+  margin-bottom:4px
+}
+.nav:hover,.nav.active{background:#e8f7f1;color:#087a5b;font-weight:bold}
+.logout{
+  width:100%;
+  border:0;
+  background:#fff0f0;
+  color:#b42318;
+  padding:11px;
+  border-radius:9px;
+  margin-top:10px
 }
 
-.error{
-  background:#3a171b;
-  color:#ff9ea8;
-  border:1px solid #703039;
+main{min-width:0}
+.page{display:none}
+.page.active{display:block}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 15px #1720330b
+}
+.card h2,.card h3{margin-top:0}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px
+}
+.stat{
+  background:white;
+  padding:18px;
+  border-radius:15px;
+  box-shadow:0 3px 15px #1720330b
+}
+.stat strong{font-size:25px;display:block;margin-top:6px}
+.muted{color:#667085;font-size:13px}
+
+.trade{
+  border:1px solid #e4e8ee;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:10px
+}
+.trade-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px
+}
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#edf1f5;
+  font-size:12px
+}
+.win{background:#e5f7ed;color:#067647}
+.loss{background:#fff0f0;color:#b42318}
+
+.post{
+  border:1px solid #e4e8ee;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:13px
+}
+.post-user{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:10px
+}
+.avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:#087a5b;color:white;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:bold
+}
+.post-actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px
+}
+.post-actions button{
+  border:0;
+  background:#f1f4f7;
+  padding:8px 12px;
+  border-radius:8px
+}
+.comment{
+  margin-top:8px;
+  padding:8px 10px;
+  background:#f5f7fa;
+  border-radius:8px;
+  font-size:13px
 }
 
-.success{
-  background:#123a2b;
-  color:#78e8b4;
-  border:1px solid #216847;
+.profile-box{
+  display:flex;
+  gap:15px;
+  align-items:center
+}
+.big-avatar{
+  width:75px;height:75px;border-radius:50%;
+  background:#087a5b;color:white;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:bold
 }
 
-.app{
-  display:none;
-  min-height:100vh;
-}
-
-.topbar{
-  padding:15px 20px;
-  background:#101923;
-  border-bottom:1px solid #263544;
+.user-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  padding:13px 0;
+  border-bottom:1px solid #edf0f3
+}
+.user-left{display:flex;gap:10px;align-items:center}
+
+.chat{
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:12px;
+  min-height:500px
+}
+.users{
+  border-right:1px solid #e5e7eb;
+  padding-right:10px
+}
+.user-select{
+  padding:11px;
+  border-radius:9px;
+  cursor:pointer
+}
+.user-select.active,.user-select:hover{
+  background:#e8f7f1
+}
+.messages{
+  display:flex;
+  flex-direction:column
+}
+.message-list{
+  flex:1;
+  min-height:350px;
+  max-height:500px;
+  overflow:auto;
+  padding:10px
+}
+.bubble{
+  max-width:75%;
+  padding:10px 13px;
+  border-radius:13px;
+  margin-bottom:8px;
+  background:#edf1f5
+}
+.mine{
+  margin-left:auto;
+  background:#087a5b;
+  color:white
+}
+.message-form{
+  display:flex;
+  gap:8px
+}
+.message-form input{flex:1}
+
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr;padding:10px}
+  .sidebar{
+    position:static;
+    display:flex;
+    overflow:auto;
+    gap:5px
+  }
+  .nav{
+    min-width:max-content;
+    margin:0
+  }
+  .logout{min-width:90px;margin:0}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr}
+  .chat{grid-template-columns:1fr}
+  .users{
+    border-right:0;
+    border-bottom:1px solid #e5e7eb;
+    padding-bottom:10px;
+    display:flex;
+    overflow:auto;
+    gap:6px
+  }
+  .user-select{min-width:max-content}
 }
 
-.brand{
-  color:#20d38a;
-  font-size:20px;
-  font-weight:900;
-}
-
-.user{
-  color:#aab7c4;
-  font-size:13px;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-}
-
-.card{
-  background:#111b25;
-  border:1px solid #263544;
-  border-radius:15px;
-  padding:20px;
-  margin-bottom:15px;
-}
-
-.logout{
-  background:#17232e;
-  color:white;
-  border:1px solid #304050;
-  border-radius:8px;
-  padding:9px 13px;
-  margin-top:15px;
+@media(max-width:480px){
+  .top{padding:12px}
+  .brand{font-size:17px}
+  .stats{gap:8px}
+  .stat{padding:13px}
+  .stat strong{font-size:20px}
+  .card{padding:14px}
 }
 </style>
 </head>
@@ -181,550 +334,562 @@ button{
 <body>
 
 <!-- AUTH -->
-
-<section id="authScreen" class="auth-screen">
-
-  <div class="auth-box">
-
+<section id="authPage" class="auth">
+  <div class="auth-card">
     <div class="logo">SUKA TRADERS</div>
+    <div class="subtitle">Trading Community & Journal</div>
 
-    <div class="subtitle">
-      Trading Community • Journal • Markets
+    <div class="tabs">
+      <button id="loginTab" class="active">Login</button>
+      <button id="signupTab">Create Account</button>
     </div>
 
-    <h2 id="authTitle">Create Account</h2>
+    <div id="authMessage"></div>
 
-    <div id="signupFields">
+    <form id="loginForm">
+      <div class="field">
+        <label>Email</label>
+        <input id="loginEmail" type="email" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="loginPassword" type="password" required>
+      </div>
+      <button class="primary">Login</button>
+    </form>
 
-      <label>Full Name</label>
-      <input
-        id="fullName"
-        type="text"
-        placeholder="Your full name"
-      >
-
-      <label>Username</label>
-      <input
-        id="username"
-        type="text"
-        placeholder="username"
-      >
-
-    </div>
-
-    <label>Email</label>
-
-    <input
-      id="email"
-      type="email"
-      placeholder="you@example.com"
-    >
-
-    <label>Password</label>
-
-    <input
-      id="password"
-      type="password"
-      placeholder="Minimum 6 characters"
-    >
-
-    <button id="authButton" class="primary">
-      Create Account
-    </button>
-
-    <div id="authError" class="error"></div>
-
-    <div id="authSuccess" class="success"></div>
-
-    <div class="switch">
-
-      <span id="switchText">
-        Already have an account?
-      </span>
-
-      <button id="switchButton">
-        Login
-      </button>
-
-    </div>
-
+    <form id="signupForm" class="hidden">
+      <div class="field">
+        <label>Full Name</label>
+        <input id="signupName" required>
+      </div>
+      <div class="field">
+        <label>Username</label>
+        <input id="signupUsername" required minlength="3">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="signupEmail" type="email" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="signupPassword" type="password" required minlength="6">
+      </div>
+      <button class="primary">Create Account</button>
+    </form>
   </div>
-
 </section>
 
-
 <!-- APP -->
+<section id="appPage" class="app hidden">
 
-<div id="app" class="app">
+<header class="top">
+  <div class="brand">↔ SUKA TRADERS</div>
+  <div class="user-mini" id="topUser"></div>
+</header>
 
-  <div class="topbar">
+<div class="layout">
 
-    <div class="brand">
-      SUKA TRADERS
-    </div>
+<aside class="sidebar">
+  <button class="nav active" data-page="dashboard">🏠 Dashboard</button>
+  <button class="nav" data-page="feed">📰 Feed</button>
+  <button class="nav" data-page="discover">🔎 Discover</button>
+  <button class="nav" data-page="journal">📊 Journal</button>
+  <button class="nav" data-page="messages">💬 Messages</button>
+  <button class="nav" data-page="notifications">🔔 Notifications</button>
+  <button class="nav" data-page="profile">👤 Profile</button>
+  <button class="nav" data-page="settings">⚙️ Settings</button>
+  <button id="logoutBtn" class="logout">Logout</button>
+</aside>
 
-    <div class="user" id="topUser">
-      User
-    </div>
+<main>
 
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
+  <div class="card">
+    <h2 id="welcomeTitle">Welcome to SUKA TRADERS</h2>
+    <p class="muted">Your trading community and journal.</p>
   </div>
 
-  <div class="container">
-
-    <div class="card">
-
-      <h2>Welcome to SUKA TRADERS</h2>
-
-      <p>
-        Your trading community and journal.
-      </p>
-
-      <p id="profileInfo"></p>
-
-      <button id="logoutButton" class="logout">
-        Logout
-      </button>
-
+  <div class="stats">
+    <div class="stat">
+      <span class="muted">Total Trades</span>
+      <strong id="statTotal">0</strong>
     </div>
-
+    <div class="stat">
+      <span class="muted">Wins</span>
+      <strong id="statWins">0</strong>
+    </div>
+    <div class="stat">
+      <span class="muted">Losses</span>
+      <strong id="statLosses">0</strong>
+    </div>
+    <div class="stat">
+      <span class="muted">Win Rate</span>
+      <strong id="statRate">0%</strong>
+    </div>
   </div>
 
+  <div class="card">
+    <h3>Recent Trades</h3>
+    <div id="dashboardTrades"></div>
+  </div>
+</section>
+
+<!-- FEED -->
+<section id="feed" class="page">
+  <div class="card">
+    <h2>Trading Feed</h2>
+    <form id="postForm">
+      <div class="field">
+        <textarea id="postContent" rows="4"
+          maxlength="5000"
+          placeholder="Share your market idea, setup or lesson..."></textarea>
+      </div>
+      <div class="grid">
+        <div class="field">
+          <label>Market</label>
+          <select id="postMarket">
+            <option value="">Select market</option>
+            <option>XAUUSD</option>
+            <option>NAS100</option>
+            <option>EURUSD</option>
+            <option>EURJPY</option>
+            <option>AUDJPY</option>
+            <option>BTCUSD</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Setup</label>
+          <select id="postSetup">
+            <option value="">Select setup</option>
+            <option>CRT</option>
+            <option>ICT</option>
+            <option>SMC</option>
+            <option>Price Action</option>
+            <option>Liquidity Sweep</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <button class="primary">Publish Post</button>
+    </form>
+  </div>
+
+  <div id="feedList"></div>
+</section>
+
+<!-- DISCOVER -->
+<section id="discover" class="page">
+  <div class="card">
+    <h2>Discover Traders</h2>
+    <div class="field">
+      <input id="discoverSearch" placeholder="Search username or name...">
+    </div>
+  </div>
+  <div class="card">
+    <div id="discoverList"></div>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section id="journal" class="page">
+  <div class="card">
+    <h2>Trading Journal</h2>
+    <p class="muted">
+      New trades are added only. Existing records are not deleted or overwritten.
+    </p>
+
+    <form id="tradeForm">
+
+      <div class="grid">
+        <div class="field">
+          <label>Trade Date</label>
+          <input id="tradeDate" type="date" required>
+        </div>
+
+        <div class="field">
+          <label>Instrument</label>
+          <input id="instrument" placeholder="XAUUSD / NAS100" required>
+        </div>
+
+        <div class="field">
+          <label>Session</label>
+          <select id="session">
+            <option>London</option>
+            <option>New-York</option>
+            <option>Asia</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Direction</label>
+          <select id="direction">
+            <option>Buy</option>
+            <option>Sell</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Setup</label>
+          <input id="setup" placeholder="CRT / ICT / SMC">
+        </div>
+
+        <div class="field">
+          <label>Entry</label>
+          <input id="entry" type="number" step="any">
+        </div>
+
+        <div class="field">
+          <label>Stop Loss</label>
+          <input id="stopLoss" type="number" step="any">
+        </div>
+
+        <div class="field">
+          <label>Take Profit</label>
+          <input id="takeProfit" type="number" step="any">
+        </div>
+
+        <div class="field">
+          <label>Risk %</label>
+          <input id="riskPercent" type="number" step="any">
+        </div>
+
+        <div class="field">
+          <label>R:R</label>
+          <input id="rr" type="number" step="any">
+        </div>
+
+        <div class="field">
+          <label>Result R</label>
+          <input id="resultR" type="number" step="any">
+        </div>
+
+        <div class="field">
+          <label>Emotion</label>
+          <select id="emotion">
+            <option>Calm</option>
+            <option>Confident</option>
+            <option>Fear</option>
+            <option>Greed</option>
+            <option>FOMO</option>
+            <option>Revenge</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Notes</label>
+        <textarea id="tradeNotes" rows="4"></textarea>
+      </div>
+
+      <div id="tradeMessage"></div>
+
+      <button class="primary">Save Trade</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>My Trades</h3>
+    <div id="journalList"></div>
+  </div>
+</section>
+
+<!-- MESSAGES -->
+<section id="messages" class="page">
+  <div class="card">
+    <h2>Messages</h2>
+
+    <div class="chat">
+      <div class="users">
+        <div id="messageUsers"></div>
+      </div>
+
+      <div class="messages">
+        <div id="selectedUserName" class="muted">
+          Select a trader
+        </div>
+
+        <div id="messageList" class="message-list"></div>
+
+        <form id="messageForm" class="message-form">
+          <input id="messageInput"
+            placeholder="Write a message..."
+            autocomplete="off">
+          <button class="primary" style="width:auto">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section id="notifications" class="page">
+  <div class="card">
+    <h2>Notifications</h2>
+    <div id="notificationList"></div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+  <div class="card">
+    <h2>My Profile</h2>
+
+    <div class="profile-box">
+      <div id="profileAvatar" class="big-avatar">S</div>
+      <div>
+        <h2 id="profileName">Trader</h2>
+        <p id="profileUsername" class="muted">@username</p>
+        <p id="profileCountry" class="muted"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Profile Information</h3>
+    <div class="field">
+      <label>Full Name</label>
+      <input id="profileFullName">
+    </div>
+
+    <div class="field">
+      <label>Username</label>
+      <input id="profileUsernameInput">
+    </div>
+
+    <div class="field">
+      <label>Country</label>
+      <input id="profileCountryInput">
+    </div>
+
+    <div class="field">
+      <label>Bio</label>
+      <textarea id="profileBio" rows="4"></textarea>
+    </div>
+
+    <div id="profileMessage"></div>
+    <button id="saveProfile" class="primary">Save Profile</button>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+  <div class="card">
+    <h2>Settings</h2>
+
+    <div class="field">
+      <label>Language</label>
+      <select id="languageSetting">
+        <option value="English">English</option>
+        <option value="Hausa">Hausa</option>
+        <option value="French">French</option>
+      </select>
+    </div>
+
+    <div id="settingsMessage"></div>
+
+    <button id="saveSettings" class="primary">
+      Save Settings
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>Account</h3>
+    <p class="muted">
+      Logged in as <span id="settingsEmail"></span>
+    </p>
+    <button id="settingsLogout" class="secondary">Logout</button>
+  </div>
+</section>
+
+</main>
 </div>
-
+</section>
 
 <script>
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
-"https://ukxzfcsvczqfcaoqzcxy.supabase.co";
+  "https://ukxzfcsvczqfcaoqzcxy.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_2MaX-5oGcTlIZh1tVlZ09g_8Fn3d5wK";
+  "sb_publishable_2MaX-5oGcTlIZh1tVlZ09g_8Fn3d5wK";
 
-const db = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
 
-let mode = "signup";
+let currentUser = null;
+let currentProfile = null;
+let selectedMessageUser = null;
+let allProfiles = [];
 
+/* =========================================================
+   HELPERS
+========================================================= */
 
-const authScreen =
-document.getElementById("authScreen");
-
-const app =
-document.getElementById("app");
-
-const authTitle =
-document.getElementById("authTitle");
-
-const authButton =
-document.getElementById("authButton");
-
-const switchButton =
-document.getElementById("switchButton");
-
-const switchText =
-document.getElementById("switchText");
-
-const signupFields =
-document.getElementById("signupFields");
-
-const authError =
-document.getElementById("authError");
-
-const authSuccess =
-document.getElementById("authSuccess");
-
-
-function showError(message){
-
-  authError.textContent = message;
-
-  authError.style.display = "block";
-
-  authSuccess.style.display = "none";
+function $(id){
+  return document.getElementById(id);
 }
 
-
-function showSuccess(message){
-
-  authSuccess.textContent = message;
-
-  authSuccess.style.display = "block";
-
-  authError.style.display = "none";
+function escapeHTML(value){
+  if(value === null || value === undefined) return "";
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-
-function clearMessages(){
-
-  authError.style.display = "none";
-
-  authSuccess.style.display = "none";
-
+function initials(name){
+  const text = (name || "T").trim();
+  return text.charAt(0).toUpperCase();
 }
 
+function showMessage(id,text,type="success"){
+  const el = $(id);
+  if(!el) return;
 
-function setMode(newMode){
+  el.innerHTML =
+    '<div class="message '+type+'">'+
+    escapeHTML(text)+
+    '</div>';
+}
 
-  mode = newMode;
+function clearMessage(id){
+  const el = $(id);
+  if(el) el.innerHTML="";
+}
 
-  clearMessages();
+function formatDate(value){
+  if(!value) return "";
+  return new Date(value).toLocaleString();
+}
 
-  if(mode === "signup"){
+function resultClass(result){
+  if(Number(result) > 0) return "win";
+  if(Number(result) < 0) return "loss";
+  return "";
+}
 
-    authTitle.textContent =
-    "Create Account";
+/* =========================================================
+   AUTH TABS
+========================================================= */
 
-    authButton.textContent =
-    "Create Account";
+$("loginTab").onclick = () => {
+  $("loginTab").classList.add("active");
+  $("signupTab").classList.remove("active");
+  $("loginForm").classList.remove("hidden");
+  $("signupForm").classList.add("hidden");
+  clearMessage("authMessage");
+};
 
-    switchText.textContent =
-    "Already have an account?";
+$("signupTab").onclick = () => {
+  $("signupTab").classList.add("active");
+  $("loginTab").classList.remove("active");
+  $("signupForm").classList.remove("hidden");
+  $("loginForm").classList.add("hidden");
+  clearMessage("authMessage");
+};
 
-    switchButton.textContent =
-    "Login";
+/* =========================================================
+   LOGIN
+========================================================= */
 
-    signupFields.style.display =
-    "block";
+$("loginForm").addEventListener("submit",async(e)=>{
+  e.preventDefault();
 
-  }else{
+  const email = $("loginEmail").value.trim();
+  const password = $("loginPassword").value;
 
-    authTitle.textContent =
-    "Login";
+  const {error} =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
 
-    authButton.textContent =
-    "Login";
-
-    switchText.textContent =
-    "Don't have an account?";
-
-    switchButton.textContent =
-    "Create Account";
-
-    signupFields.style.display =
-    "none";
+  if(error){
+    showMessage("authMessage",error.message,"error");
+    return;
   }
-}
 
+  showMessage("authMessage","Login successful.");
 
-switchButton.addEventListener(
-  "click",
-  function(){
+  await loadApp();
+});
 
-    if(mode === "signup"){
+/* =========================================================
+   SIGN UP
+========================================================= */
 
-      setMode("login");
+$("signupForm").addEventListener("submit",async(e)=>{
+  e.preventDefault();
 
-    }else{
+  const fullName =
+    $("signupName").value.trim();
 
-      setMode("signup");
+  const username =
+    $("signupUsername").value.trim();
 
-    }
+  const email =
+    $("signupEmail").value.trim();
 
-  }
-);
-
-
-authButton.addEventListener(
-  "click",
-  async function(){
-
-    clearMessages();
-
-    const email =
-    document.getElementById("email")
-    .value
-    .trim();
-
-    const password =
-    document.getElementById("password")
-    .value;
-
-
-    if(!email){
-
-      showError("Email is required.");
-
-      return;
-    }
-
-
-    if(!password){
-
-      showError("Password is required.");
-
-      return;
-    }
-
-
-    if(password.length < 6){
-
-      showError(
-        "Password must be at least 6 characters."
-      );
-
-      return;
-    }
-
-
-    authButton.disabled = true;
-
-    authButton.textContent =
-    "Please wait...";
-
-
-    try{
-
-      if(mode === "signup"){
-
-        const fullName =
-        document.getElementById("fullName")
-        .value
-        .trim();
-
-        const username =
-        document.getElementById("username")
-        .value
-        .trim();
-
-
-        if(!fullName){
-
-          throw new Error(
-            "Full Name is required."
-          );
-        }
-
-
-        if(!username){
-
-          throw new Error(
-            "Username is required."
-          );
-        }
-
-
-        const {data,error} =
-        await db.auth.signUp({
-
-          email:email,
-
-          password:password
-
-        });
-
-
-        if(error){
-
-          throw error;
-
-        }
-
-
-        if(data.user){
-
-          const {error:profileError} =
-          await db
-          .from("profiles")
-          .insert({
-
-            id:data.user.id,
-
-            full_name:fullName,
-
-            username:username
-
-          });
-
-
-          if(profileError){
-
-            console.error(
-              "Profile error:",
-              profileError
-            );
-
-          }
-
-        }
-
-
-        if(data.session){
-
-          showSuccess(
-            "Account created successfully!"
-          );
-
-          setTimeout(
-            showApp,
-            500
-          );
-
-        }else{
-
-          showSuccess(
-            "Account created. Check your email to confirm your account."
-          );
-
-        }
-
-
-      }else{
-
-
-        const {data,error} =
-        await db.auth.signInWithPassword({
-
-          email:email,
-
-          password:password
-
-        });
-
-
-        if(error){
-
-          throw error;
-
-        }
-
-
-        if(data.session){
-
-          showApp();
-
-        }
-
-      }
-
-
-    }catch(error){
-
-      console.error(error);
-
-      showError(
-        error.message ||
-        "Something went wrong."
-      );
-
-    }
-
-
-    authButton.disabled = false;
-
-    authButton.textContent =
-    mode === "signup"
-      ? "Create Account"
-      : "Login";
-
-  }
-);
-
-
-async function showApp(){
+  const password =
+    $("signupPassword").value;
 
   const {data,error} =
-  await db.auth.getUser();
+    await supabaseClient.auth.signUp({
+      email,
+      password,
+      options:{
+        data:{
+          full_name:fullName,
+          username:username
+        }
+      }
+    });
 
-
-  if(error || !data.user){
-
+  if(error){
+    showMessage("authMessage",error.message,"error");
     return;
-
   }
 
-
-  const user =
-  data.user;
-
-
-  authScreen.style.display =
-  "none";
-
-  app.style.display =
-  "block";
-
-
-  document.getElementById(
-    "topUser"
-  ).textContent =
-  user.email;
-
-
-  const {data:profile} =
-  await db
-  .from("profiles")
-  .select("full_name,username")
-  .eq("id",user.id)
-  .maybeSingle();
-
-
-  if(profile){
-
-    document.getElementById(
-      "profileInfo"
-    ).textContent =
-    "Welcome, " +
-    (profile.full_name ||
-     profile.username ||
-     user.email);
-
-  }
-
-}
-
-
-document.getElementById(
-  "logoutButton"
-).addEventListener(
-  "click",
-  async function(){
-
-    await db.auth.signOut();
-
-    location.reload();
-
-  }
-);
-
-
-db.auth.onAuthStateChange(
-  function(event,session){
-
-    if(session){
-
-      showApp();
-
-    }
-
-  }
-);
-
-
-async function checkSession(){
-
-  const {data} =
-  await db.auth.getSession();
-
+  /*
+    If email confirmation is enabled,
+    session may be null.
+  */
 
   if(data.session){
+    showMessage(
+      "authMessage",
+      "Account created successfully."
+    );
 
-    showApp();
-
+    await loadApp();
   }else{
-
-    setMode("signup");
-
+    showMessage(
+      "authMessage",
+      "Account created. Check your email to confirm your account."
+    );
   }
+});
 
-}
+/* =========================================================
+   LOGOUT
+========================================================= */
 
-
-checkSession();
-
-</script>
-
-</body>
-</html>
+async function logout(){
+  const {error} =
+    await supabaseClien
