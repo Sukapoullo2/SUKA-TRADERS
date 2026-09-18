@@ -209,8 +209,41 @@ async function createPost(){
  document.getElementById('postText').value='';await render();alert('✅ An wallafa post ɗinka.');
 }
 async function loadPosts(){
- const {data,error}=await sb.from('posts').select('id,user_id,content,market,created_at,profiles(full_name,username,country)').order('created_at',{ascending:false}).limit(30);
- if(error){console.error(error);posts=[];return}posts=data||[];
+ const {data:postData,error:postError}=await sb
+  .from('posts')
+  .select('id,user_id,content,market,created_at')
+  .order('created_at',{ascending:false})
+  .limit(30);
+
+ if(postError){
+  console.error('POST LOAD ERROR:',postError);
+  posts=[];
+  return;
+ }
+
+ const rows=postData||[];
+ const ids=[...new Set(rows.map(p=>p.user_id).filter(Boolean))];
+
+ let profiles={};
+
+ if(ids.length){
+  const {data:profileData,error:profileError}=await sb
+   .from('profiles')
+   .select('id,full_name,username,country')
+   .in('id',ids);
+
+  if(profileError){
+   console.error('PROFILE LOAD ERROR:',profileError);
+  }else{
+   (profileData||[]).forEach(p=>profiles[p.id]=p);
+  }
+ }
+
+ posts=rows.map(p=>({
+  ...p,
+  profiles:profiles[p.user_id]||null
+ }));
+}
 }
 async function render(){
  await loadPosts();
